@@ -1,6 +1,6 @@
 To download and install the latest version, run:
 ```
-wget -O ip_filter-Linux.deb https://github.com/buevich-dmitry/otus1.2/releases/latest/download/custom_allocator-Linux.deb
+wget -O ip_filter-Linux.deb https://github.com/buevich-dmitry/otus2/releases/latest/download/custom_allocator-Linux.deb
 sudo dpkg -i custom_allocator-Linux.deb
 ```
 
