@@ -3,6 +3,7 @@
 #include <exception>
 #include <stdexcept>
 #include <memory>
+#include <cassert>
 
 namespace otus {
 
@@ -11,11 +12,10 @@ class Allocator {
 public:
     using value_type = T;
 
-    explicit Allocator() : size_{0}, allocated_memory_(static_cast<T*>(malloc(Capacity * sizeof(T)))) {
-    }
+    Allocator() = default;
 
     template <class U>
-    explicit Allocator(const Allocator<U, Capacity>&) : Allocator() {
+    explicit Allocator(const Allocator<U, Capacity>&) noexcept {
     }
 
     Allocator(Allocator&& other) noexcept : size_{other.size_}, allocated_memory_{other.allocated_memory_} {
@@ -31,6 +31,10 @@ public:
     }
 
     T* allocate(const size_t count) {
+        if (allocated_memory_ == nullptr) {
+            assert(size_ == 0);
+            allocated_memory_ = static_cast<T*>(malloc(Capacity * sizeof(T)));
+        }
         if (size_ + count > Capacity) {
             throw std::runtime_error("trying to allocate too many elements");
         }
